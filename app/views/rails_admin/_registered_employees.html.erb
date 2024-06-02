@@ -1,0 +1,23 @@
+<!-- app/views/rails_admin/registered_employees.html.erb -->
+<h2>Registered Employees</h2>
+
+<table class="registered-employees-table">
+  <thead>
+    <tr>
+      <th>Employee&nbsp;&nbsp;</th>
+      <th>Email&nbsp;</th>
+      <th>Coaching Program</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% company.coaching_programs.each do |program| %>
+      <% program.employee_registrations.each do |registration| %>
+        <tr>
+          <td><%= registration.user.name %></td>
+          <td><%= registration.user.email %>&nbsp;</td>
+          <td><%= registration.coaching_program.name %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

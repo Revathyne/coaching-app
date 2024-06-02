@@ -1,0 +1,103 @@
+<h1>Employee Registration</h1>
+<form id="registrationForm">
+  <div id="step1">
+    <h2>Step 1: Select Program</h2>
+    <p>The coaching programs for your company - <%= @company.name %> are:</p>
+    <label for="program">Program:</label>
+    <select id="program" name="program">
+      <% @coaching_programs.each do |coaching_program| %>
+        <option value="<%= coaching_program.id %>"><%= coaching_program.name %></option>
+      <% end %>
+    </select>
+    <button type="button" id="toStep2">Next</button>
+  </div>
+
+  <div id="step2" style="display:none;">
+    <h2>Step 2: Personal Details</h2>
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone">
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address">
+    <button type="button" id="toStep3">Next</button>
+  </div>
+
+  <div id="step3" style="display:none;">
+    <h2>Step 3: Select Coach</h2>
+    <label for="coach">Coach:</label>
+    <select id="coach" name="coach"></select>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+<%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete } %>
+<br>
+<%= link_to "Go back to dashboard", employee_coaching_path, class: "btn btn-primary" %>
+
+<script>
+  $(document).ready(function() {
+    $('#step2, #step3').hide();
+
+    $('#toStep2').click(function() {
+      $('#step1').hide();
+      $('#step2').show();
+    });
+
+    $('#toStep3').click(function() {
+      $('#step2').hide();
+      $('#step3').show();
+
+      var coachingProgramId = $('#program').val();
+      if (!coachingProgramId) return;
+
+      $.ajax({
+        url: '/employee_registrations/get_coaches',
+        type: 'GET',
+        data: { coaching_program_id: coachingProgramId },
+        dataType: 'json',
+        success: function(data) {
+          $('#coach').empty();
+          $.each(data, function(index, coach) {
+            $('#coach').append($('<option>', {
+              value: coach.id,
+              text: coach.name
+            }));
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching coaches:', error);
+        }
+      });
+    });
+
+    $('#registrationForm').submit(function(event) {
+      event.preventDefault();
+
+      var formData = {
+        coaching_program_id: $('#program').val(),
+        phone: $('#phone').val(),
+        address: $('#address').val(),
+        coach_id: $('#coach').val()
+      };
+
+      $.ajax({
+        url: '/employee_registrations',
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+          if (response.redirect) {
+            window.location.href = response.redirect;
+          } else {
+            alert('Registration successful!');
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error submitting registration:', error);
+          if (xhr.responseJSON && xhr.responseJSON.redirect) {
+            window.location.href = xhr.responseJSON.redirect;
+          }
+        }
+      });
+    });
+  });
+</script>

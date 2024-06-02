@@ -1,0 +1,18 @@
+# spec/fixtures/coaching_programs.yml
+program_one:
+  id: 1
+  name: Program One
+  description: Description of Program One
+  company_id: 1
+
+program_two:
+  id: 2
+  name: Program Two
+  description: Description of Program Two
+  company_id: 2
+
+program_three:
+  id: 3
+  name: ''
+  description: Description of Program Three
+  company_id: 2

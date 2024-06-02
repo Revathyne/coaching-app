@@ -1,0 +1,8 @@
+# spec/fixtures/companies.yml
+company_one:
+  id: 1
+  name: Company One
+
+company_two:
+  id: 2
+  name: Company Two

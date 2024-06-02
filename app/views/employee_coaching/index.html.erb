@@ -1,0 +1,22 @@
+<h1><%= @company.name %></h1>
+<p><%= @company.description %></p>
+<h4><%= @company.address %></h4>
+<h4><%= @company.phone %></h4>
+<h2>Employee Coaching Programs</h1>
+<% if @coaching_programs.present? %>
+  <ul>
+    <% @coaching_programs.each do |program| %>
+      <li>
+        <h3><%= program[:coaching_program_name] %></h2>
+        <p><%= program[:coaching_program_description] %></p>
+        <p>Coach: <%= program[:coach_name] %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No coaching programs found for <%= @company.name %>.</p>
+<% end %>
+
+<%= link_to "Register for a new coaching program", new_employee_registration_path, class: "btn btn-primary" %>
+<br></br>
+<%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete } %>

@@ -1,0 +1,34 @@
+<!-- app/views/coaches/index.html.erb -->
+<h1 class="dashboard-title">Coach Dashboard</h1>
+
+<%= form_with url: filter_sessions_coach_dashboard_path, method: :get, local: true, id: 'filter_form' do %>
+  <div class="filter-section">
+    <label for="company_filter">Filter by Company:</label>
+    <%= select_tag :company_id, options_from_collection_for_select(@companies, :id, :name, params[:company_id]), prompt: 'All Companies', class: 'filter-dropdown' %>
+
+    <label for="program_filter">Filter by Program:</label>
+    <%= select_tag :coaching_program_id, options_from_collection_for_select(@coaching_programs, :id, :name, params[:coaching_program_id]), prompt: 'All Programs', class: 'filter-dropdown' %>
+
+    <%= submit_tag 'Filter', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<div id="sessions_list">
+  <%= render partial: 'sessions_list', locals: { employee_registrations: @employee_registrations } %>
+</div>
+
+<h2 class="subsection-title">Companies for which Coach is Responsible</h2>
+<table class="companies-table">
+  <thead>
+    <tr>
+      <th>Company Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @companies.each do |company| %>
+      <tr>
+        <td><%= company.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,11 @@
+coach_one:
+  id: 1
+  user_id: 1
+
+coach_two:
+  id: 2
+  user_id: 2
+
+invalid_coach:
+  id: 3
+  user_id: ''

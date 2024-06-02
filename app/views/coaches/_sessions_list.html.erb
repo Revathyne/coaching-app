@@ -1,0 +1,23 @@
+<!-- app/views/coaches/_sessions_list.html.erb -->
+<table class="sessions-table">
+  <thead>
+    <tr>
+      <th>Employee Name</th>
+      <th>Company</th>
+      <th>Coaching Program</th>
+      <th>Coaching Session Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% employee_registrations.each do |registration| %>
+      <tr>
+        <td><%= registration.user.name %></td>
+        <td><%= registration.coaching_program.company.name %></td>
+        <td><%= registration.coaching_program.name %></td>
+        <td><%= registration.coaching_program.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: 'btn btn-secondary' %>
